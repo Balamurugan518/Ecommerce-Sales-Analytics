@@ -1,2 +1,24 @@
-# Ecommerce-Sales-Analytics
-SQL project for ecommerce sales analysis using MySQL
+
+SELECT
+    c.customer_name,
+    SUM(oi.quantity * oi.unit_price) AS total_spent
+FROM customers c
+JOIN orders o
+    ON c.customer_id = o.customer_id
+JOIN order_items oi
+    ON o.order_id = oi.order_id
+GROUP BY c.customer_name
+ORDER BY total_spent DESC
+LIMIT 3;
+
+CREATE VIEW customer_summary AS
+SELECT
+    c.customer_name,
+    COUNT(DISTINCT o.order_id) AS total_orders,
+    SUM(oi.quantity * oi.unit_price) AS total_spent
+FROM customers c
+JOIN orders o
+    ON c.customer_id = o.customer_id
+JOIN order_items oi
+    ON o.order_id = oi.order_id
+GROUP BY c.customer_name;
